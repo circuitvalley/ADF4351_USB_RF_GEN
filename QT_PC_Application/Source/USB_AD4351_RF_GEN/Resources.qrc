@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/images">
-        <file>board.ico</file>
+    <qresource prefix="/">
+        <file>circuitvalley.ico</file>
     </qresource>
 </RCC>

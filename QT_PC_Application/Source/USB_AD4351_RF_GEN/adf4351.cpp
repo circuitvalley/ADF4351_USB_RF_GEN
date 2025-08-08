@@ -1,9 +1,9 @@
-#include "ad4351.h"
+#include "adf4351.h"
 #include <math.h>
 #include <stdlib.h>
 
 
-AD4351::AD4351() {
+ADF4351::ADF4351() {
 this->enable_gcd = true;
 }
 
@@ -38,10 +38,10 @@ uint32_t gcd(uint32_t a, uint32_t b)
     }
 }
 
-void AD4351::AD4351_calculte_reg_from_freq(uint32_t frequency)
+void ADF4351::ADF4351_calculte_reg_from_freq(uint32_t frequency)
 {
     this->frequency = frequency;
-    double pfd_freq = (this->REF_FREQ *(this->ref_doubler?2:1))/((this->ref_div2?2:1) * this->r_counter);
+    double pfd_freq = (this->ref_freq *(this->ref_doubler?2:1))/((this->ref_div2?2:1) * this->r_counter);
     uint32_t output_divider;
     double N;
     for (uint8_t i; i < 7 ; i++)
@@ -124,13 +124,13 @@ void AD4351::AD4351_calculte_reg_from_freq(uint32_t frequency)
 }
 
 
-void AD4351::BuildRegisters()
+void ADF4351::BuildRegisters()
 {
     for (int i = 0; i < 6; i++)
     {
         this->previous_reg[i] = this->reg[i];
     }
-    this->PFDFreq = (this->REF_FREQ * (double)(this->ref_doubler ? 2 : 1) / (double)(this->ref_div2 ? 2 : 1) / (double)this->r_counter);
+    this->PFDFreq = (this->ref_freq * (double)(this->ref_doubler ? 2 : 1) / (double)(this->ref_div2 ? 2 : 1) / (double)this->r_counter);
     uint16_t output_divider = 1;
     if (this->frequency >= 2200.0)
     {
@@ -223,7 +223,7 @@ void AD4351::BuildRegisters()
     this->reg[2] = (uint32_t)((double)this->low_noise_spur_mode * (1 << 29) + (double)this->muxout * (1 << 26) + (double)(this->ref_doubler ? 1 : 0) * (1 << 25) + (double)(this->ref_div2 ? 1 : 0) * (1 << 24) + (double)this->r_counter * (1 << 14) + (double)this->double_buff * (1 << 13) + (double)this->charge_pump_current * (1 << 9) + (double)this->LDF * (1 << 8) + (double)this->LDP  * (1 << 7) + (double)this->PD_Polarity * (1 << 6) + (double)this->power_down * (1 << 5) + (double)this->cp_3stage * (1 << 4) + (double)this->counter_reset * (1 << 3) + 2.0);
     this->reg[3] = (uint32_t)((uint32_t)this->band_select_clock_mode * (1 << 23) + (uint32_t)this->ABP * (1 << 22) + (uint32_t)this->charge_cancelletion * (1 << 21) + (uint32_t)this->CSR * (1 << 18) + (uint32_t)this->CLK_DIV_MODE * (1 << 15) + (uint32_t)this->clock_divider * (1 << 3) + 3.0);
 
-    this->reg[4] = (uint32_t)((uint32_t)this->feedback_select * (1 << 23)  + log2((double)output_divider) * (1 << 20) + (double)this->band_select_clock_divider * (1 << 12) + (double)this->VCO_power_down * (1 << 11) + (double)this->MTLD * (1 << 10) + (double)this->AUX_output_mode * (1 << 9) + (double)this->AUX_output_enable * (1 << 8) + (double)this->AUX_output_power * (1 << 6) + (double)this->RF_ENABLE * (1 << 5) + (double)this->RF_output_power * (1 << 3) + 4.0);
+    this->reg[4] = (uint32_t)((uint32_t)this->feedback_select * (1 << 23)  + log2((double)output_divider) * (1 << 20) + (double)this->band_select_clock_divider * (1 << 12) + (double)this->VCO_power_down * (1 << 11) + (double)this->MTLD * (1 << 10) + (double)this->AUX_output_mode * (1 << 9) + (double)this->AUX_output_enable * (1 << 8) + (double)this->AUX_output_power * (1 << 6) + (double)this->RF_OUT * (1 << 5) + (double)this->RF_output_power * (1 << 3) + 4.0);
     this->reg[5] = (uint32_t)((uint32_t)this->LD * (1 << 22) + (uint32_t)0x3 * (1 << 19) + 5.0);
 
 

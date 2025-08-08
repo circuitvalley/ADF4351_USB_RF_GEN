@@ -3,11 +3,11 @@
 
 #include <QMainWindow>
 #include "hid_pnp.h"
-#include "ad4351.h"
+#include "adf4351.h"
 #include <QTimer>
 
 namespace Ui {
-    class USB_AD4351_form;
+    class USB_ADF4351_form;
 }
 
 class USBIOBoard : public QMainWindow
@@ -19,21 +19,31 @@ public:
     ~USBIOBoard();
 
 private:
-    Ui::USB_AD4351_form *ui;
+    Ui::USB_ADF4351_form *ui;
     HID_PnP *plugNPlay;
-    AD4351 *ad4351;
+    ADF4351 *adf4351;
     QTimer *sweep_timer;
-    QTimer *hop_timer;
 
-    bool enable_auto_tx;
+    uint32_t serialNumber = 0;
+    bool isIdentifyCalled = false;
+    bool isAutoStartEnabled = false;
+    bool isFlashProgramPending = false;
+    bool isEraseFlashRequested = false;
+    bool isWriteSerialNumberRequested = false;
+    bool enable_auto_tx = false;
     void getDataFromUI();
     void showEvent(QShowEvent *event);
+    bool isSelctedDeviceChange;
+    QString selected_usb_device;
+    QStringList usb_device_list;
+    bool usb_device_list_poplated;
 
 signals:
    void signal_update_io(uint16_t tris, uint16_t ansel,uint16_t alternate , uint16_t drive );
    void signal_update_pwm(uint16_t *duty,long frequency);
-   void signal_update_reg(const uint32_t *reg);
+   void signal_update_reg(const uint32_t *reg, bool isStartOfSweep);
    void signal_auto_tx();
+
 
    void singal_recalculate();
    void signal_update_RF_CTRL();
@@ -41,19 +51,25 @@ signals:
    void signal_update_ref(uint16_t adc, uint16_t dac );
 
 public slots:
-    void update_gui(bool isConnected, UI_Data *ui_data);
+     void update_gui(bool isConnected, UI_Data *ui_data);
      void display_reg();
      void sweep_timer_timeout();
-     void hop_timer_timeout();
-     void hop_start_click();
-     void hop_stop_click();
+
+     void program_serial_click();
+     void erase_flash_click();
+     void program_flash_click();
      void autotx_clicked();
+     void autoStartonBoot_clicked();
      void sweep_start_click();
      void sweep_stop_click();
+     void idenfity_click();
      void update_dac();
      void update_reg();
      void recalculate();
      void update_RF_CTRL();
+     void comboBox_device_selection_changed();
 };
+
+//#define PRODUCTION
 
 #endif // USBIOBOARD_H

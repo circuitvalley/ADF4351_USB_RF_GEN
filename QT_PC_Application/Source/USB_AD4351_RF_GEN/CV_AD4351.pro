@@ -4,24 +4,25 @@
 
 QT       += core gui
 QT += gui widgets
-TARGET = CV_AD4351
+TARGET = CV_ADF4351
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
         hid_pnp.cpp \
     usbioboard.cpp \
-    ad4351.cpp
+    adf4351.cpp
 
 HEADERS  += \
          hid_pnp.h \
     usbioboard.h \
-    ad4351.h
+    adf4351.h
 
 
 FORMS    += \
     usbio.ui
 
+RC_FILE = app.rc
 #-------------------------------------------------
 # Add the Signal11's hidapi library that was
 # created
@@ -68,4 +69,4 @@ win32 {
 OTHER_FILES +=
 
 RESOURCES += \
-    Resources.qrc
+    resources.qrc
