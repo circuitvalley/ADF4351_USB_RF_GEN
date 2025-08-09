@@ -271,9 +271,9 @@ void USBIOBoard::program_flash_click()
 
 void USBIOBoard::sweep_timer_timeout()
 {
-    const double frequency = ui->doubleSpinBox_sweep_freq->text().toDouble() + ui->doubleSpinBox_sweep_step->text().toDouble();
+    double frequency = ui->doubleSpinBox_sweep_freq->value() + ui->doubleSpinBox_sweep_step->value();
     ui->doubleSpinBox_sweep_freq->setValue(frequency);
-    this->adf4351->frequency = ui->doubleSpinBox_sweep_freq->text().toDouble();
+    this->adf4351->frequency = ui->doubleSpinBox_sweep_freq->value();
     this->adf4351->isStartOfSweep = false;
 
 

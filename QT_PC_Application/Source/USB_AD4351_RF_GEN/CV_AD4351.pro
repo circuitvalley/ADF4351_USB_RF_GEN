@@ -23,6 +23,10 @@ FORMS    += \
     usbio.ui
 
 RC_FILE = app.rc
+QMAKE_CXXFLAGS += "-fno-sized-deallocation"
+QMAKE_CXXFLAGS += "-std=c++11"
+LIBS += "-lstdc++"
+
 #-------------------------------------------------
 # Add the Signal11's hidapi library that was
 # created

@@ -44,7 +44,7 @@ void ADF4351::ADF4351_calculte_reg_from_freq(uint32_t frequency)
     double pfd_freq = (this->ref_freq *(this->ref_doubler?2:1))/((this->ref_div2?2:1) * this->r_counter);
     uint32_t output_divider;
     double N;
-    for (uint8_t i; i < 7 ; i++)
+    for (uint8_t i=0; i < 7 ; i++)
     {
         output_divider = 2 ^ i;
         if ( (2200.0 / output_divider) <= frequency)
