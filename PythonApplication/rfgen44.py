@@ -3,6 +3,7 @@ import hid
 import sys
 import struct
 import math
+import ctypes
 
 TARGET_VID = 0x1209
 TARGET_PID = 0x7877
@@ -13,10 +14,39 @@ COMMAND_READ_RF_CTRL = 0x82
 COMMAND_DEVICE_CTRL  = 0x84
 COMMAND_GET_BUILD_INFO = 0xB0
 
+
+class ADF4351_reg_t(ctypes.Union):
+    class _Regs(ctypes.Structure):
+        _fields_ = [
+            ("reg", ctypes.c_uint32 * 6),         # 24 bytes
+            ("frequency", ctypes.c_uint32),       # 4 bytes
+            ("ref_freq", ctypes.c_uint32),        # 4 bytes
+            ("start_freq", ctypes.c_uint32),      # 4 bytes
+            ("stop_freq", ctypes.c_uint32),       # 4 bytes
+            ("step_freq", ctypes.c_uint32),       # 4 bytes
+            ("step_ms", ctypes.c_uint16),         # 2 bytes
+            ("aux_select", ctypes.c_uint16),      # 2 bytes
+            ("isSweepEnabled", ctypes.c_uint8),   # 1 byte
+            ("isStartOnBoot", ctypes.c_uint8),    # 1 byte
+            ("isStartOfSweep", ctypes.c_uint8),   # 1 byte
+            ("flashWritePending", ctypes.c_uint8),# 1 byte
+            ("flashReadPending", ctypes.c_uint8), # 1 byte
+            ("sanityCheck", ctypes.c_uint16),     # 2 bytes
+            ("padding", ctypes.c_uint8 * 1),      # 1 byte padding
+        ]
+
+    _anonymous_ = ("regs",)
+    _fields_ = [
+        ("regs", _Regs),
+        ("mem", ctypes.c_uint8 * 56)
+    ]
+
+
+
 class AD4351:
     def __init__(self):
         # Public members
-        self.REF_FREQ = 25  # uint32_t
+        self.REF_FREQ = 25.0 
         self.ref_doubler = False
         self.ref_div2 = False
         self.enable_gcd =  True
@@ -24,7 +54,7 @@ class AD4351:
         self.band_select_clock_mode = False # low
         self.clock_divider = 150
         self.band_select_clock_freq = 0.0
-        self.band_select_auto = False  #issue
+        self.band_select_auto = True  #issue
         self.N = 0.0
         self.PFDFreq = 0.0
         self.PHASE_ADJUST = False #0 off
@@ -52,15 +82,14 @@ class AD4351:
         self.RF_output_power = 3  # uint8_t default 3 (+5 dBm)
         self.RF_ENABLE = True
         self.PHASE = 1
-        self.r_counter = 25
+        self.r_counter = 50
         self.frequency = 100.0
-        self.reg = [0] * 6
         self.INT = 0
         self.MOD = 0.0
         self.FRAC = 0.0
-
         self.band_select_clock_divider = 0
-
+        self.registers = ADF4351_reg_t()
+        
     def AD4351_calculte_reg_from_freq(self, frequency: int):
         # Placeholder for your method
         pass
@@ -106,7 +135,7 @@ class AD4351:
         self.INT = int(self.N)
         self.MOD = int(round(1000 * self.PFDFreq))
         self.FRAC = int(round((self.N - self.INT) * self.MOD))
-
+        
         if self.enable_gcd:
             div = self.gcd(self.MOD, self.FRAC)
             self.MOD //= div
@@ -131,12 +160,12 @@ class AD4351:
 
 
        # Register calculations
-        self.reg[0] = ((self.INT & 0xFFFF) << 15) + ((self.FRAC & 0xFFF) << 3) + 0
-        self.reg[1] = (self.PHASE_ADJUST << 28) + (self.PR1 << 27) + (self.PHASE << 15) + ((self.MOD & 0xFFF) << 3) + 1
-        self.reg[2] = (self.low_noise_spur_mode << 29) + (self.muxout << 26) + ((1 if self.ref_doubler else 0) << 25) + ((1 if self.ref_div2 else 0) << 24) + (self.r_counter << 14) + (self.double_buff << 13) + (self.charge_pump_current << 9) + (self.LDF << 8) + (self.LDP << 7) + (self.PD_Polarity << 6) + (self.power_down << 5) + (self.cp_3stage << 4) + (self.counter_reset << 3) + 2
-        self.reg[3] = (self.band_select_clock_mode << 23) + (self.ABP << 22) + (self.charge_cancelletion << 21) + (self.CSR << 18) + (self.CLK_DIV_MODE << 15) + (self.clock_divider << 3) + 3
-        self.reg[4] = (self.feedback_select << 23) + (int(math.log2(output_divider)) << 20) + (self.band_select_clock_divider << 12) + (self.VCO_power_down << 11) + (self.MTLD << 10) + (self.AUX_output_mode << 9) + (self.AUX_output_enable << 8) + (self.AUX_output_power << 6) + (self.RF_ENABLE << 5) + (self.RF_output_power << 3) + 4
-        self.reg[5] = (self.LD << 22) + (0x3 << 19) + 5
+        self.registers.reg[0] = ((self.INT & 0xFFFF) << 15) + ((self.FRAC & 0xFFF) << 3) + 0
+        self.registers.reg[1] = (self.PHASE_ADJUST << 28) + (self.PR1 << 27) + (self.PHASE << 15) + ((self.MOD & 0xFFF) << 3) + 1
+        self.registers.reg[2] = (self.low_noise_spur_mode << 29) + (self.muxout << 26) + ((1 if self.ref_doubler else 0) << 25) + ((1 if self.ref_div2 else 0) << 24) + (self.r_counter << 14) + (self.double_buff << 13) + (self.charge_pump_current << 9) + (self.LDF << 8) + (self.LDP << 7) + (self.PD_Polarity << 6) + (self.power_down << 5) + (self.cp_3stage << 4) + (self.counter_reset << 3) + 2
+        self.registers.reg[3] = (self.band_select_clock_mode << 23) + (self.ABP << 22) + (self.charge_cancelletion << 21) + (self.CSR << 18) + (self.CLK_DIV_MODE << 15) + (self.clock_divider << 3) + 3
+        self.registers.reg[4] = (self.feedback_select << 23) + (int(math.log2(output_divider)) << 20) + (self.band_select_clock_divider << 12) + (self.VCO_power_down << 11) + (self.MTLD << 10) + (self.AUX_output_mode << 9) + (self.AUX_output_enable << 8) + (self.AUX_output_power << 6) + (self.RF_ENABLE << 5) + (self.RF_output_power << 3) + 4
+        self.registers.reg[5] = (self.LD << 22) + (0x3 << 19) + 5
         #print([f"0x{val:08X}" for val in self.reg]) #print hex value
         pass
 
@@ -179,13 +208,26 @@ def write_to_hid_device(vid, pid, serial_number, data):
     except hid.HIDException as e:
         print(f"Failed to communicate with device: {e}")
         return -1
+        
+        
+def frequency_to_uint32(num: float) -> int:
+    # Ensure non-negative
+    if num < 0:
+        raise ValueError("Frequency unsigned floats are allowed")
 
+    # Scale float to integer (preserve 2 decimal places)
+    result = int(num * 100)
+    # Force into unsigned 32-bit range
+    return result & 0xFFFFFFFF
+    
 def calc_and_write(frequency, serial):
    RFGEN = AD4351()
    RFGEN.frequency = frequency
    RFGEN.BuildRegisters()
-   packed_bytes = b''.join(struct.pack('<I', val) for val in RFGEN.reg)  # Use '>I' for big-endian
-   result_bytes = [0x00, COMMAND_SET_REG] + list(packed_bytes)
+   RFGEN.registers.frequency = frequency_to_uint32(frequency)
+   RFGEN.registers.isStartOnBoot = 1
+
+   result_bytes = [0x00, COMMAND_SET_REG] + list(RFGEN.registers.mem)
 
    write_to_hid_device(TARGET_VID, TARGET_PID, serial, result_bytes)
 
@@ -200,10 +242,26 @@ def deviceCtrl(serial_number, frequency, write_flash, identify, erase):
    RFGEN = AD4351()
    RFGEN.frequency = frequency
    RFGEN.BuildRegisters()
-   packed_bytes = b''.join(struct.pack('<I', val) for val in RFGEN.reg)  # Use '>I' for big-endian
-   result_bytes = [0x00, COMMAND_DEVICE_CTRL, write_flash, identify, erase] + list(packed_bytes)
-
+   RFGEN.registers.frequency = frequency_to_uint32(frequency)
+   RFGEN.registers.isStartOnBoot = 1
+   result_bytes = [0x00, COMMAND_DEVICE_CTRL, write_flash, identify, erase] + list(RFGEN.registers.mem)
    write_to_hid_device(TARGET_VID, TARGET_PID, serial_number, result_bytes)
+
+def programSweep(serial_number, startfrequency, stopfrequency, stepfrequency, steptime):
+   RFGEN = AD4351()
+   RFGEN.frequency = 35.0
+   RFGEN.BuildRegisters()
+   RFGEN.registers.frequency = frequency_to_uint32(35.0)
+   RFGEN.registers.start_freq = frequency_to_uint32(startfrequency)
+   RFGEN.registers.stop_freq = frequency_to_uint32(stopfrequency)
+   RFGEN.registers.step_freq = frequency_to_uint32(stepfrequency)
+   RFGEN.registers.step_ms = steptime
+   RFGEN.registers.ref_freq = frequency_to_uint32(RFGEN.REF_FREQ)
+   RFGEN.registers.isSweepEnabled = 1
+   RFGEN.registers.isStartOnBoot = 1
+   result_bytes = [0x00, COMMAND_DEVICE_CTRL, 0x01, 0x00, 0x00] + list(RFGEN.registers.mem)
+   write_to_hid_device(TARGET_VID, TARGET_PID, serial_number, result_bytes)
+
 
 def read_device_rf_out_status(serial_number):
     try:
@@ -268,11 +326,20 @@ def read_device_firmware_build(serial_number):
         device.close()
         return -1
 
+def validateFrequency(frequency):
+    # Ensure non-negative
+    if frequency < 35.0:
+        print("Frequency < 35.0 Mhz is invalid")
+        sys.exit(1)
+
+    if frequency > 4400.0:
+        print("Frequency > 4400.0 Mhz is invalid")
+        sys.exit(1)
 
 def main():
     parser = argparse.ArgumentParser(description="CVRF Control Application")
     parser.add_argument(
-        "-f", "--frequency", type=float, help="Set frequency value (float) Mhz"
+        "-f", "--frequency", type=float, help="Set frequency value (float) Mhz i.e 50.00 for 50Mhz, min 35.00Mhz max 4400.00Mhz"
     )
     parser.add_argument(
         "-l",
@@ -287,7 +354,7 @@ def main():
         "-w",
         "--write",
         action="store_true",
-        help="Write to Circuitvalley RFGEN USB HID Device",
+        help="Write Frequency and other parameters to Circuitvalley RFGEN USB HID Device",
     )
     parser.add_argument(
         "-i",
@@ -326,6 +393,50 @@ def main():
         help="Get/Set RF Out status from Circuitvalley RFGEN USB HID Device {true or false, 1 or 0}",
     )
 
+    parser.add_argument(
+        "-p",
+        "--programsweep",
+        action="store_true",
+        help="Program Sweep to enable device sweep need to specify start stop step frequency aswell as step time",
+    )
+    
+    
+    parser.add_argument(
+        "-a",
+        "--auxselect",
+        type=int,
+        help="Aux Pin selection value (integer), 0 for Sync out, 1 for Sync IN, 2 for External Reference ",
+    )
+    
+    parser.add_argument(
+        "-b",
+        "--startfrequency",
+        type=float,
+        help="Start Frequency value (float) Mhz i.e 50.00 for 50Mhz , min 35.00Mhz max 4400.00Mhz",
+    )
+    
+    parser.add_argument(
+        "-c",
+        "--stopfrequency",
+        type=float,
+        help="Stop Frequency value (float) Mhz i.e 50.00 for 50Mhz, min 0.01Mhz max 2200.00Mhz",
+    )
+    
+    parser.add_argument(
+        "-g",
+        "--stepfrequency",
+        type=float,
+        help="Step Frequency value (float) Mhz i.e 50.00 for 50Mhz, min 35.00Mhz max 4400.00Mhz",
+    )
+    
+    parser.add_argument(
+        "-j",
+        "--steptime",
+        type=int,
+        help="Time delay between steps value (integer) ms i.e 50 for 50ms",
+    )
+    
+    
     args = parser.parse_args()
     
     if  args.serial_number is None and not args.list and  not len(sys.argv) == 1:
@@ -349,6 +460,8 @@ def main():
         if args.frequency is None:
             print("Error: --write operation requires --frequency to be specified.")
             sys.exit(1)
+        
+        validateFrequency(args.frequency)
         calc_and_write(args.frequency, args.serial_number)
 
     if args.info:
@@ -358,7 +471,9 @@ def main():
         if args.frequency is None:
             print("Error: --flashwrite operation requires --frequency to be specified.")
             sys.exit(1)
-        deviceCtrl(args.serial_number, args.frequency, 1, 1, 0)
+         
+        validateFrequency(args.frequency)
+        deviceCtrl(args.serial_number, args.frequency, 1, 0, 0)
 
     if args.devindetify:
         deviceCtrl(args.serial_number, 35.0, 0, 1, 0)
@@ -366,6 +481,26 @@ def main():
     if args.erase:
         deviceCtrl(args.serial_number, 35.0, 1, 1, 1)  #frequency default , Write flash , identify, erase
 
+    if args.programsweep:
+        if args.startfrequency is None or  args.stopfrequency is None or args.stepfrequency is None or args.steptime is None:
+            print("Error: Sweep operation requires startfrequency, stopfrequency, stepfrequency, steptime to be specified.")
+            sys.exit(1)
+            
+        if args.startfrequency > args.stopfrequency:
+            print("Error: Sweep operation requires startfrequency to be less than stopfrequency.")
+            sys.exit(1)
+
+        if (args.startfrequency + args.stepfrequency) > args.stopfrequency:
+            print("Error: Sweep operation Step too big.")
+            sys.exit(1)
+
+        validateFrequency(args.startfrequency)
+        validateFrequency(args.stopfrequency)
+        
+        if  args.steptime < 30:
+            print("Error: Sweep operation Step is too small set to 30ms.")
+
+        programSweep(args.serial_number, args.startfrequency, args.stopfrequency, args.stepfrequency, args.steptime)
 
     if args.rfstate:
         value = args.rfstate.lower()
