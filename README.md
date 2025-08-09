@@ -24,9 +24,23 @@ ADF4351 USB PIC16F1459
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Cross platform USB RF Signal Generator implemented with PIC16F1459 and Analog device ADF4351. 
-    If not, see <http://www.gnu.org/licenses/>.
+
+Shield: [![CC BY-NC-ND 4.0][cc-by-nc-nd-shield]][cc-by-nc-nd]
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International License][cc-by-nc-nd].
+
+[![CC BY-NC-ND 4.0][cc-by-nc-nd-image]][cc-by-nc-nd]
+
+[cc-by-nc-nd]: http://creativecommons.org/licenses/by-nc-nd/4.0/
+[cc-by-nc-nd-image]: https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png
+[cc-by-nc-nd-shield]: https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg
     
-https://www.circuitvalley.com/2018/07/diy-4ghz-rf-signal-generator-adf4351-usb-qt5-linux-3Ghz.html
 *******************************************************************************/
+
+Blog Post 
+
+https://www.circuitvalley.com/2025/08/rfgen44-open-source-ghz-usb-rf-signal-generator.html
+
+
+![alt text](https://raw.githubusercontent.com/circuitvalley/ADF4351_USB_RF_GEN/refs/heads/master/Hardware/Images/low_cost_rf_signal_generator_ghz%20(2).JPG)
