@@ -337,7 +337,7 @@ def validateFrequency(frequency):
         sys.exit(1)
 
 def main():
-    parser = argparse.ArgumentParser(description="CVRF Control Application")
+    parser = argparse.ArgumentParser(description="CircuitValley RFGEN44 RF Signal Generator Control Application Version 1.0")
     parser.add_argument(
         "-f", "--frequency", type=float, help="Set frequency value (float) Mhz i.e 50.00 for 50Mhz, min 35.00Mhz max 4400.00Mhz"
     )
