@@ -1,6 +1,5 @@
 RFGEN44 USB RF Signal Generator
 =================
-/*******************************************************************************
 
     Cross platform USB RF Signal Generator implemented with PIC16F1459 
     and Analog device ADF4351 
@@ -20,7 +19,6 @@ This work is licensed under a
 [cc-by-nc-nd-image]: https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png
 [cc-by-nc-nd-shield]: https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg
     
-*******************************************************************************/
 
 Blog Post 
 
