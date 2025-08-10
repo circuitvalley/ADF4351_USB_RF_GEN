@@ -1,6 +1,10 @@
 #-------------------------------------------------
 # Project created by QtCreator 2010-10-28T17:06:16
 #-------------------------------------------------
+win32:VERSION = 1.0.0.4 # major.minor.patch.build
+else:VERSION = 1.0.0    # major.minor.patch
+
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 QT       += core gui
 QT += gui widgets

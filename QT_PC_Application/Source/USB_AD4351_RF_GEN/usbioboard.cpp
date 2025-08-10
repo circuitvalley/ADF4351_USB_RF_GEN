@@ -276,6 +276,7 @@ void USBIOBoard::sweep_timer_timeout()
     this->adf4351->frequency = ui->doubleSpinBox_sweep_freq->value();
     this->adf4351->isStartOfSweep = false;
 
+    printf("Sweep timer timeout with %f \n",this->adf4351->frequency );
 
     if (frequency > ui->doubleSpinBox_sweep_end->value())
     {
@@ -283,10 +284,13 @@ void USBIOBoard::sweep_timer_timeout()
         {
             ui->doubleSpinBox_sweep_freq->setValue(ui->doubleSpinBox_sweep_start->value());
             this->adf4351->isStartOfSweep = true;
+
         }
         else
         {
             this->sweep_stop_click();
+             printf("Sweep loop not clicked\n");
+
         }
     }
 
@@ -316,7 +320,9 @@ void USBIOBoard::update_gui(bool isConnected, UI_Data *ui_data)
     {
         if (!ui_data->isReadFirmwareInfoPending   )
         {
-            this->setWindowTitle("RFGEN44 RF GEN: FW : " + QString::number( ui_data->firmware_version_major ) +"." + QString::number( ui_data->firmware_version_minor ) + ":" +  QString::number( ui_data->firmware_build_number )  + " Serial: " +  ui_data->selected_usb_device + " Connected");
+
+
+            this->setWindowTitle(QString("RFGEN44 ") + APP_VERSION + " RF GEN: FW : " + QString::number( ui_data->firmware_version_major ) +"." + QString::number( ui_data->firmware_version_minor ) + ":" +  QString::number( ui_data->firmware_build_number )  + " Serial: " +  ui_data->selected_usb_device + " Connected");
         }
 
         if (!ui_data->isReadFirmwareInfoPending)
@@ -345,7 +351,7 @@ void USBIOBoard::update_gui(bool isConnected, UI_Data *ui_data)
         ui_data->readRFCTRL_pending = true;
         ui_data->isReadFirmwareInfoPending = true;
         // stop all timers here
-        this->setWindowTitle("RFGEN44 RF GEN : Device Not Found");
+        this->setWindowTitle(QString("RFGEN44 ") + APP_VERSION + " RF GEN : Device Not Found");
         ui->RF_CTRL->setText("RF : XX");
         sweep_timer->stop();
     }
