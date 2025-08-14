@@ -1,0 +1,4 @@
+# Put this file into /etc/udev/rules.d and unplug and re-plug your device.
+# You don't need to restart Udev, new permissions will be picked up automatically.
+
+ATTRS{idVendor}=="1209", ATTRS{idProduct}=="7877", MODE="0666"
