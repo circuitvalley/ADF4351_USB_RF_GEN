@@ -23,7 +23,11 @@ Blog Post
 
 https://www.circuitvalley.com/2025/08/rfgen44-open-source-ghz-usb-rf-signal-generator.html
 
-![alt text](https://raw.githubusercontent.com/circuitvalley/ADF4351_USB_RF_GEN/refs/heads/master/Hardware/Images/video_rfgen.png)
+
+<a href="https://www.youtube.com/watch?v=La1sAXm-j78">
+<img src="https://raw.githubusercontent.com/circuitvalley/ADF4351_USB_RF_GEN/refs/heads/master/Hardware/Images/video_rfgen.png" alt="RFGEN" width="830" height="560">
+</a>
+
 
 ![alt text](https://raw.githubusercontent.com/circuitvalley/ADF4351_USB_RF_GEN/refs/heads/master/Hardware/Images/low_cost_rf_signal_generator_ghz%20(2).JPG)
 
