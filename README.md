@@ -29,7 +29,7 @@ https://www.circuitvalley.com/2025/08/rfgen44-open-source-ghz-usb-rf-signal-gene
 </a>
 
 <a href="https://www.youtube.com/watch?v=rBRRXOH_iFQ">
-<img src="https://raw.githubusercontent.com/circuitvalley/ADF4351_USB_RF_GEN/refs/heads/master/Hardware/Images/video_rfgen2.png" alt="RFGEN" width="1000" height="380">
+<img src="https://raw.githubusercontent.com/circuitvalley/ADF4351_USB_RF_GEN/refs/heads/master/Hardware/Images/video_rfgen2.png" alt="RFGEN" width="1000" height="440">
 </a>
 
 
