@@ -1774,6 +1774,7 @@ void USBIOBoard::update_gui(bool isConnected, UI_Data *ui_data)
 
         ui->comboBox_usb_devices->blockSignals(true);
         ui->comboBox_usb_devices->clear();
+        this->usb_device_list.removeDuplicates();
         ui->comboBox_usb_devices->addItems(this->usb_device_list);
 
         if (this->selected_usb_device.length() > 0)
@@ -1783,21 +1784,15 @@ void USBIOBoard::update_gui(bool isConnected, UI_Data *ui_data)
             {
                 ui->comboBox_usb_devices->setCurrentIndex(idx);
             }
-            else if (!this->isSelctedDeviceChange
-                     && ui->comboBox_usb_devices->count() > 0
-                     && ui->comboBox_usb_devices->itemText(0) != "No Device Found")
+            else
             {
-                /* Selected device was removed — auto-switch to next available.
-                 * Only when NOT mid-switch (isSelctedDeviceChange prevents
-                 * oscillation during intentional device changes). */
-                this->selected_usb_device  = ui->comboBox_usb_devices->itemText(0);
+                this->selected_usb_device  = this->usb_device_list.first();
                 this->isSelctedDeviceChange = true;
             }
         }
-        else if (ui->comboBox_usb_devices->count() > 0)
+        else
         {
-            /* First startup — no device selected yet, pick first available */
-            this->selected_usb_device  = ui->comboBox_usb_devices->itemText(0);
+            this->selected_usb_device  = this->usb_device_list.first();
             this->isSelctedDeviceChange = true;
         }
 

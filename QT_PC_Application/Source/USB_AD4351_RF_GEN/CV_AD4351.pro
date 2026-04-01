@@ -1,8 +1,8 @@
 #-------------------------------------------------
 # Project created by QtCreator 2010-10-28T17:06:16
 #-------------------------------------------------
-win32:VERSION = 2.0.0.0 # major.minor.patch.build
-else:VERSION = 2.0.0.0    # major.minor.patch
+win32:VERSION = 2.0.0.5 # major.minor.patch.build
+else:VERSION = 2.0.0.5    # major.minor.patch
 
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
