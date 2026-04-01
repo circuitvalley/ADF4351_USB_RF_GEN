@@ -230,7 +230,6 @@ def find_usb_device(vid, pid):
     if matching_devices:
         return [len(matching_devices), matching_devices[0]['serial_number']]
     else:
-        print(f"No CircuitValley RFGEN devices found with VID=0x{vid:04X} PID=0x{pid:04X}")
         return [0, ""]
 
 
@@ -401,14 +400,11 @@ def read_device_rf_out_status(serial_number):
         return -1
 
 
-def read_device_firmware_build(serial_number):
+def read_device_firmware_build(serial_number, silent=False):
+    """Read firmware version. Returns (major, minor, build) or None on failure."""
     try:
         device = hid.Device(vid=TARGET_VID, pid=TARGET_PID, serial=serial_number)
-        data_out = [0x00, COMMAND_GET_BUILD_INFO]
-
-        if isinstance(data_out, list):
-            data_out = bytes(data_out)
-
+        data_out = bytes([0x00, COMMAND_GET_BUILD_INFO])
         data_out = data_out[:64].ljust(64, b'\x00')
 
         bytes_written = device.write(data_out)
@@ -419,17 +415,22 @@ def read_device_firmware_build(serial_number):
         if not response:
             raise TimeoutError("No response received from device")
 
-        firmware_version_major = response[1]
-        firmware_version_minor = response[2]
-        firmware_build_number  = (response[3] << 8) | response[4]
+        major = response[1]
+        minor = response[2]
+        build = (response[3] << 8) | response[4]
 
-        print("Serial Number {} Firmware version {}.{}.{}".format(serial_number, firmware_version_major, firmware_version_minor, firmware_build_number))
+        if not silent:
+            print("Serial Number {} Firmware version {}.{}.{}".format(serial_number, major, minor, build))
 
         device.close()
+        return (major, minor, build)
     except hid.HIDException as e:
         print(f"Failed to communicate with device: {e}")
-        device.close()
-        return -1
+        try:
+            device.close()
+        except:
+            pass
+        return None
 
 
 def validateFrequency(frequency):
@@ -484,7 +485,10 @@ def main():
         description="CircuitValley RFGEN44 RF Signal Generator Control Application Version 1.1",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-Macro Examples:
+Examples:
+  Program device sweep (100-200 MHz, 1 MHz steps, 50ms per step):
+    %(prog)s --programsweep 100.0,200.0,1.0,50
+
   Program 3-step macro:
     %(prog)s --programmacro --macrostep 100.0,500,on --macrostep 200.0,500,on --macrostep 100.0,1000,off
 
@@ -530,28 +534,8 @@ Macro Examples:
         help="Get/Set RF Out status from Circuitvalley RFGEN USB HID Device {true or false, 1 or 0}",
     )
     parser.add_argument(
-        "-p", "--programsweep", action="store_true",
-        help="Program Sweep to enable device sweep need to specify start stop step frequency as well as step time",
-    )
-    parser.add_argument(
-        "-a", "--auxselect", type=int,
-        help="Aux Pin selection value (integer), 0 for Sync out, 1 for Sync IN, 2 for External Reference",
-    )
-    parser.add_argument(
-        "-b", "--startfrequency", type=float,
-        help="Start Frequency value (float) Mhz i.e 50.00 for 50Mhz, min 35.00Mhz max 4400.00Mhz",
-    )
-    parser.add_argument(
-        "-c", "--stopfrequency", type=float,
-        help="Stop Frequency value (float) Mhz i.e 50.00 for 50Mhz, min 35.00Mhz max 4400.00Mhz",
-    )
-    parser.add_argument(
-        "-g", "--stepfrequency", type=float,
-        help="Step Frequency value (float) Mhz i.e 50.00 for 50Mhz, min 35.00Mhz max 4400.00Mhz",
-    )
-    parser.add_argument(
-        "-j", "--steptime", type=int,
-        help="Time delay between steps value (integer) ms i.e 50 for 50ms",
+        "-p", "--programsweep", metavar="START,STOP,STEP,MS",
+        help="Program device sweep: start_mhz,stop_mhz,step_mhz,step_ms  e.g. 100.0,200.0,1.0,50",
     )
 
     # Macro arguments
@@ -566,7 +550,11 @@ Macro Examples:
 
     args = parser.parse_args()
 
-    if args.serial_number is None and not args.list and not len(sys.argv) == 1:
+    # Commands that require a connected device
+    needs_device = (args.write or args.info or args.flashwrite or args.devindetify
+                    or args.erase or args.rfstate or args.programsweep or args.programmacro)
+
+    if args.serial_number is None and needs_device:
         number_of_devices, found_device_serial = find_usb_device(TARGET_VID, TARGET_PID)
         if number_of_devices == 1:
             print("RFGEN Device {}".format(found_device_serial))
@@ -575,6 +563,7 @@ Macro Examples:
             print("Error: Multiple USB devices found, --serial_number must be specified.")
             sys.exit(1)
         else:
+            print("Error: No RFGEN device connected.")
             sys.exit(1)
 
     if args.frequency is not None:
@@ -607,26 +596,36 @@ Macro Examples:
         deviceCtrl(args.serial_number, 35.0, 1, 1, 1)
 
     if args.programsweep:
-        if args.startfrequency is None or args.stopfrequency is None or args.stepfrequency is None or args.steptime is None:
-            print("Error: Sweep operation requires startfrequency, stopfrequency, stepfrequency, steptime to be specified.")
+        parts = args.programsweep.strip().split(',')
+        if len(parts) != 4:
+            print("Error: --programsweep format: start_mhz,stop_mhz,step_mhz,step_ms")
             sys.exit(1)
 
-        if args.startfrequency > args.stopfrequency:
-            print("Error: Sweep operation requires startfrequency to be less than stopfrequency.")
+        try:
+            startfrequency = float(parts[0])
+            stopfrequency  = float(parts[1])
+            stepfrequency  = float(parts[2])
+            steptime       = int(parts[3])
+        except ValueError:
+            print("Error: --programsweep values must be: float,float,float,int")
             sys.exit(1)
 
-        if (args.startfrequency + args.stepfrequency) > args.stopfrequency:
-            print("Error: Sweep operation Step too big.")
+        if startfrequency > stopfrequency:
+            print("Error: Start frequency must be less than stop frequency.")
             sys.exit(1)
 
-        validateFrequency(args.startfrequency)
-        validateFrequency(args.stopfrequency)
-
-        if args.steptime < 30:
-            print("Error: Sweep operation Step time is too small (minimum 30ms).")
+        if (startfrequency + stepfrequency) > stopfrequency:
+            print("Error: Step frequency too large.")
             sys.exit(1)
 
-        programSweep(args.serial_number, args.startfrequency, args.stopfrequency, args.stepfrequency, args.steptime)
+        validateFrequency(startfrequency)
+        validateFrequency(stopfrequency)
+
+        if steptime < 30:
+            print("Error: Step time too small (minimum 30ms).")
+            sys.exit(1)
+
+        programSweep(args.serial_number, startfrequency, stopfrequency, stepfrequency, steptime)
 
     if args.programmacro:
         if not args.macrostep or len(args.macrostep) < 2:
@@ -635,6 +634,17 @@ Macro Examples:
         if len(args.macrostep) > MACRO_MAX_STEPS:
             print(f"Error: Maximum {MACRO_MAX_STEPS} macro steps allowed.")
             sys.exit(1)
+
+        # Check firmware version — macro requires 2.0+
+        fw = read_device_firmware_build(args.serial_number, silent=True)
+        if fw is None:
+            print("Error: Could not read firmware version from device.")
+            sys.exit(1)
+        if fw[0] < 2:
+            print(f"Error: Device firmware {fw[0]}.{fw[1]}.{fw[2]} does not support macro programming.")
+            print("       Firmware 2.0+ required. Please update firmware.")
+            sys.exit(1)
+        print(f"Device firmware {fw[0]}.{fw[1]}.{fw[2]} — macro supported.")
 
         steps = [parse_macro_step(s) for s in args.macrostep]
         programMacro(args.serial_number, steps)
