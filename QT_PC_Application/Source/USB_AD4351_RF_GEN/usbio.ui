@@ -45,345 +45,384 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
       <string>Control</string>
      </attribute>
-     <widget class="QWidget" name="horizontalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>1001</width>
-        <height>451</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QGroupBox" name="groupBox_3">
-         <property name="title">
-          <string>Frequency</string>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Frequency</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_7">
+         <property name="verticalSpacing">
+          <number>12</number>
          </property>
-         <widget class="QWidget" name="gridLayoutWidget_6">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>20</y>
-            <width>300</width>
-            <height>80</height>
-           </rect>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_7">
-           <item row="0" column="1">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_freq_basic">
-             <property name="font">
-              <font>
-               <pointsize>17</pointsize>
-              </font>
-             </property>
-             <property name="minimum">
-              <double>35.000000000000000</double>
-             </property>
-             <property name="maximum">
-              <double>4400.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.010000000000000</double>
-             </property>
-             <property name="value">
-              <double>100.000000000000000</double>
-             </property>
-            </widget>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_67">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>RF Freq</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_freq_basic">
+           <property name="font">
+            <font>
+             <pointsize>17</pointsize>
+            </font>
+           </property>
+           <property name="suffix">
+            <string> MHz</string>
+           </property>
+           <property name="minimum">
+            <double>35.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>4400.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+           <property name="value">
+            <double>100.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_rf_power_basic">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>RF Power</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="comboBox_RF_POWER_basic">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="currentIndex">
+            <number>3</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>-4 dBm</string>
+            </property>
            </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_67">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>14</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>RF Freq (Mhz)</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
+           <item>
+            <property name="text">
+             <string>-1 dBm</string>
+            </property>
            </item>
-          </layout>
-         </widget>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
+           <item>
+            <property name="text">
+             <string>+2 dBm</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>+5 dBm</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="2">
+          <spacer name="verticalSpacer_freq">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="0" colspan="2">
+          <widget class="QLabel" name="label_deviceDiagram">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>RF: --  |  Ref: --  |  Sync: --</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::RichText</enum>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignHCenter|Qt::AlignVCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="2">
+          <widget class="QLabel" name="label_firmwareInfo">
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>FW: --  |  SN: --</string>
+           </property>
+           <property name="styleSheet">
+            <string>color: #888;</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeft|Qt::AlignBottom</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <spacer name="verticalSpacer_freq_bottom">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="title">
+         <string>Sweep / Hop</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <property name="verticalSpacing">
+          <number>10</number>
          </property>
-         <property name="title">
-          <string>Sweep / Hop</string>
-         </property>
-         <widget class="QWidget" name="gridLayoutWidget_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>291</width>
-            <height>341</height>
-           </rect>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_5">
-           <item row="5" column="1">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_sweep_freq">
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="maximum">
-              <double>4400.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.010000000000000</double>
-             </property>
-             <property name="value">
-              <double>100.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_51">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Stop</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_sweep_end">
-             <property name="maximumSize">
-              <size>
-               <width>140</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="minimum">
-              <double>35.000000000000000</double>
-             </property>
-             <property name="maximum">
-              <double>4400.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.010000000000000</double>
-             </property>
-             <property name="value">
-              <double>500.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_52">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Step</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QSpinBox" name="spinBox_sweep_delay">
-             <property name="maximumSize">
-              <size>
-               <width>140</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="minimum">
-              <number>30</number>
-             </property>
-             <property name="maximum">
-              <number>100000000</number>
-             </property>
-             <property name="value">
-              <number>500</number>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_50">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Start</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_53">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Step (ms)</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1">
-            <widget class="QCheckBox" name="checkBox_sweep_loop">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Loop</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_sweep_start">
-             <property name="maximumSize">
-              <size>
-               <width>140</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="minimum">
-              <double>35.000000000000000</double>
-             </property>
-             <property name="maximum">
-              <double>4400.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.010000000000000</double>
-             </property>
-             <property name="value">
-              <double>100.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="label_54">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Current Freq </string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QDoubleSpinBox" name="doubleSpinBox_sweep_step">
-             <property name="maximumSize">
-              <size>
-               <width>140</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>16</pointsize>
-              </font>
-             </property>
-             <property name="minimum">
-              <double>0.010000000000000</double>
-             </property>
-             <property name="maximum">
-              <double>4400.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.010000000000000</double>
-             </property>
-             <property name="value">
-              <double>100.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="1">
-            <widget class="QPushButton" name="pushButton_sweep_stop">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Stop</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_50">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Start</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_sweep_start">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="suffix">
+            <string> MHz</string>
+           </property>
+           <property name="minimum">
+            <double>35.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>4400.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+           <property name="value">
+            <double>100.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_51">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>End</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_sweep_end">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="suffix">
+            <string> MHz</string>
+           </property>
+           <property name="minimum">
+            <double>35.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>4400.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+           <property name="value">
+            <double>500.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="2">
+          <spacer name="verticalSpacer_sweep">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>10</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_52">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Step</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_sweep_step">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="suffix">
+            <string> MHz</string>
+           </property>
+           <property name="minimum">
+            <double>0.010000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>4400.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.010000000000000</double>
+           </property>
+           <property name="value">
+            <double>100.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_53">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Step (ms)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QSpinBox" name="spinBox_sweep_delay">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="minimum">
+            <number>30</number>
+           </property>
+           <property name="maximum">
+            <number>100000000</number>
+           </property>
+           <property name="value">
+            <number>500</number>
+           </property>
+           <property name="suffix">
+            <string> ms</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QCheckBox" name="checkBox_sweep_loop">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Loop</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="sweepButtonLayout">
+           <item>
             <widget class="QPushButton" name="pushButton_sweep_start">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>32</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -394,10 +433,13 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="0" colspan="2">
-            <widget class="QLabel" name="label_49">
-             <property name="enabled">
-              <bool>true</bool>
+           <item>
+            <widget class="QPushButton" name="pushButton_sweep_stop">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>32</height>
+              </size>
              </property>
              <property name="font">
               <font>
@@ -405,192 +447,56 @@
               </font>
              </property>
              <property name="text">
-              <string>Sweep/Hop Freq (Mhz)</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <string>Stop</string>
              </property>
             </widget>
            </item>
           </layout>
-         </widget>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="title">
-          <string>Device Settings</string>
-         </property>
-         <widget class="QWidget" name="gridLayoutWidget_5">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>80</y>
-            <width>311</width>
-            <height>181</height>
-           </rect>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_6">
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_device_busy_2">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QPushButton" name="pushButton_erase_flash">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Erase Flash</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QCheckBox" name="checkBox_prog_enable_sweep">
-             <property name="toolTip">
-              <string>When checked Device will enable RF output as soon as Power is Applied.</string>
-             </property>
-             <property name="text">
-              <string>In Device Sweep</string>
-             </property>
-             <property name="checked">
-              <bool>false</bool>
-             </property>
-             <property name="tristate">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QPushButton" name="pushButton_program_flash">
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Program Flash</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLabel" name="label_device_busy">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>Device Busy.....</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QCheckBox" name="checkBox_autoLockOnBoot">
-             <property name="toolTip">
-              <string>When checked Device will enable RF output as soon as Power is Applied.</string>
-             </property>
-             <property name="text">
-              <string>Flash Load on boot</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-             <property name="tristate">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QSpinBox" name="spinBox_serial">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>280</y>
-            <width>291</width>
-            <height>61</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>18</pointsize>
-           </font>
-          </property>
-          <property name="maximum">
-           <number>1048575</number>
-          </property>
-          <property name="displayIntegerBase">
-           <number>16</number>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pushButton_program_serial">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>350</y>
-            <width>291</width>
-            <height>51</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Program Serial Number</string>
-          </property>
-         </widget>
-         <widget class="QWidget" name="gridLayoutWidget_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>291</width>
-            <height>41</height>
-           </rect>
-          </property>
+         </item>
+         <item row="7" column="0" colspan="2">
+          <widget class="QLabel" name="label_sweepInfo">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Steps: --  |  Total: --</string>
+           </property>
+           <property name="styleSheet">
+            <string>color: #666;</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0" colspan="2">
+          <spacer name="verticalSpacer_sweep2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="title">
+         <string>Device Settings</string>
+        </property>
+        <layout class="QVBoxLayout" name="deviceSettingsLayout">
+         <item>
           <layout class="QGridLayout" name="gridLayout">
            <item row="0" column="0">
             <widget class="QLabel" name="label_48">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
              <property name="font">
               <font>
                <pointsize>10</pointsize>
@@ -627,11 +533,144 @@
             </widget>
            </item>
           </layout>
-         </widget>
-        </widget>
-       </item>
-      </layout>
-     </widget>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0" colspan="2">
+            <widget class="QCheckBox" name="checkBox_autoLockOnBoot">
+             <property name="toolTip">
+              <string>When checked Device will enable RF output as soon as Power is Applied.</string>
+             </property>
+             <property name="text">
+              <string>Flash Load on boot</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QCheckBox" name="checkBox_prog_enable_sweep">
+             <property name="toolTip">
+              <string>When checked Device will run sweep from flash settings.</string>
+             </property>
+             <property name="text">
+              <string>In Device Sweep</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_device_busy_2">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_device_busy">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Device Busy.....</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QPushButton" name="pushButton_erase_flash">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Erase Flash</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QPushButton" name="pushButton_program_flash">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Program Flash</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_serial">
+           <property name="font">
+            <font>
+             <pointsize>18</pointsize>
+            </font>
+           </property>
+           <property name="maximum">
+            <number>1048575</number>
+           </property>
+           <property name="displayIntegerBase">
+            <number>16</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_program_serial">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Program Serial Number</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_device">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
@@ -666,7 +705,7 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLineEdit" name="line_reg1">
+         <widget class="QLineEdit" name="line_reg0">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -684,7 +723,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="line_reg0">
+         <widget class="QLineEdit" name="line_reg1">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -702,7 +741,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="line_reg3">
+         <widget class="QLineEdit" name="line_reg2">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -720,7 +759,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="line_reg2">
+         <widget class="QLineEdit" name="line_reg3">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -781,7 +820,7 @@
          <x>10</x>
          <y>20</y>
          <width>991</width>
-         <height>371</height>
+         <height>374</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
@@ -1138,8 +1177,11 @@
           <property name="font">
            <font>
             <family>MS Shell Dlg 2</family>
-            <pointsize>16</pointsize>
+            <pointsize>18</pointsize>
            </font>
+          </property>
+          <property name="suffix">
+           <string> MHz</string>
           </property>
           <property name="minimum">
            <double>35.000000000000000</double>
@@ -1327,7 +1369,7 @@
            </font>
           </property>
           <property name="text">
-           <string>RF Freq (Mhz)</string>
+           <string>RF Freq</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1688,7 +1730,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Ref Freq (Mhz)</string>
+           <string>Ref Freq</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1955,6 +1997,9 @@
         </item>
         <item row="1" column="3">
          <widget class="QDoubleSpinBox" name="doubleSpinBox_ref">
+          <property name="suffix">
+           <string> MHz</string>
+          </property>
           <property name="minimum">
            <double>10.000000000000000</double>
           </property>
@@ -1969,6 +2014,14 @@
        </layout>
       </widget>
      </widget>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <property name="focusPolicy">
+      <enum>Qt::TabFocus</enum>
+     </property>
+     <attribute name="title">
+      <string>Macro</string>
+     </attribute>
     </widget>
    </widget>
    <widget class="QPushButton" name="RF_CTRL">
@@ -2071,6 +2124,9 @@
     <property name="text">
      <string>Auto Write</string>
     </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="pushButton_identify">
     <property name="geometry">
@@ -2105,18 +2161,18 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>checkBox_autotx</tabstop>
+  <!-- Control tab: Column 1 - Frequency -->
   <tabstop>doubleSpinBox_freq_basic</tabstop>
+  <tabstop>comboBox_RF_POWER_basic</tabstop>
+  <!-- Control tab: Column 2 - Sweep/Hop -->
   <tabstop>doubleSpinBox_sweep_start</tabstop>
   <tabstop>doubleSpinBox_sweep_end</tabstop>
   <tabstop>doubleSpinBox_sweep_step</tabstop>
   <tabstop>spinBox_sweep_delay</tabstop>
-  <tabstop>doubleSpinBox_sweep_freq</tabstop>
   <tabstop>checkBox_sweep_loop</tabstop>
   <tabstop>pushButton_sweep_start</tabstop>
   <tabstop>pushButton_sweep_stop</tabstop>
-  <tabstop>USBTX</tabstop>
-  <tabstop>RF_CTRL</tabstop>
+  <!-- Control tab: Column 3 - Device Settings -->
   <tabstop>comboBox_auxsetting</tabstop>
   <tabstop>checkBox_autoLockOnBoot</tabstop>
   <tabstop>checkBox_prog_enable_sweep</tabstop>
@@ -2124,48 +2180,66 @@
   <tabstop>pushButton_program_flash</tabstop>
   <tabstop>spinBox_serial</tabstop>
   <tabstop>pushButton_program_serial</tabstop>
+  <!-- Bottom bar -->
   <tabstop>comboBox_usb_devices</tabstop>
   <tabstop>pushButton_identify</tabstop>
-  <tabstop>tabWidget</tabstop>
+  <tabstop>checkBox_autotx</tabstop>
+  <tabstop>USBTX</tabstop>
+  <tabstop>RF_CTRL</tabstop>
+  <!-- Advance Control tab: Row-first, left to right -->
+  <!-- Row 0 -->
   <tabstop>doubleSpinBox_freq</tabstop>
   <tabstop>checkBox_refx2</tabstop>
   <tabstop>checkBox_refdiv2</tabstop>
   <tabstop>spinBox_clock_divider</tabstop>
+  <!-- Row 1 -->
   <tabstop>comboBox_mux_out</tabstop>
   <tabstop>doubleSpinBox_ref</tabstop>
   <tabstop>spinBox_rcount</tabstop>
+  <!-- Row 2 -->
   <tabstop>comboBox_PD_polarity</tabstop>
   <tabstop>comboBox_MTLD</tabstop>
   <tabstop>spinBox_phase_val</tabstop>
+  <!-- Row 3 -->
   <tabstop>comboBox_powerdown</tabstop>
   <tabstop>comboBox_AUX_OUT</tabstop>
   <tabstop>comboBox_charge_pump_current</tabstop>
+  <!-- Row 4 -->
   <tabstop>comboBox_cp_3_state</tabstop>
   <tabstop>comboBox_AUX_EN</tabstop>
   <tabstop>comboBox_LDF</tabstop>
+  <!-- Row 5 -->
   <tabstop>comboBox_counter_rst</tabstop>
   <tabstop>comboBox_AUX_out_power</tabstop>
   <tabstop>comboBox_mode</tabstop>
+  <!-- Row 6 -->
   <tabstop>comboBox_vco_powerdown</tabstop>
   <tabstop>comboBox_presacler</tabstop>
   <tabstop>comboBox_feedback</tabstop>
+  <!-- Row 7 -->
   <tabstop>comboBox_RF_OUT</tabstop>
   <tabstop>comboBox_RF_POWER</tabstop>
   <tabstop>comboBox_band_select_clk_mode</tabstop>
+  <!-- Row 8 -->
   <tabstop>comboBox_ABP</tabstop>
   <tabstop>comboBox_phase_adjust</tabstop>
   <tabstop>comboBox_charge_cancellation</tabstop>
+  <!-- Row 9 -->
   <tabstop>comboBox_CSR</tabstop>
   <tabstop>comboBox_CLK_div_mode</tabstop>
+  <!-- Row 10 -->
+  <tabstop>comboBox_LDP</tabstop>
   <tabstop>comboBox_LDPIN</tabstop>
   <tabstop>comboBox_double_buff</tabstop>
-  <tabstop>line_reg1</tabstop>
+  <!-- Register hex line edits (left to right) -->
   <tabstop>line_reg0</tabstop>
-  <tabstop>line_reg3</tabstop>
+  <tabstop>line_reg1</tabstop>
   <tabstop>line_reg2</tabstop>
+  <tabstop>line_reg3</tabstop>
   <tabstop>line_reg4</tabstop>
   <tabstop>line_reg5</tabstop>
-  <tabstop>comboBox_LDP</tabstop>
+  <!-- Tab widget itself -->
+  <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources>
   <include location="resources.qrc"/>

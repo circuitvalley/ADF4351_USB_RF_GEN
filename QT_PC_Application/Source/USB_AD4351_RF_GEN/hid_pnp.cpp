@@ -10,6 +10,7 @@ HID_PnP::HID_PnP(QObject *parent) : QObject(parent) {
     buf[1] = 0x37;
     memset((void*)&buf[2], 0x00, sizeof(buf) - 2);
     memset(ui_data.adf4351.reg, 0, sizeof(ui_data.adf4351.reg));
+    memset(&ui_data.deviceMacro, 0, sizeof(ui_data.deviceMacro));
 
     usbDeviceTimer = new QTimer();
     connect(usbDeviceTimer, SIGNAL(timeout()), this, SLOT(FindUSBDevices ()));
@@ -172,6 +173,33 @@ void HID_PnP::PollUSB()
 
         }
 
+        if (ui_data.isMacroWritePending == true)
+        {
+            ui_data.isMacroWritePending = false;
+
+            // Write block 0
+            buf[0] = 0x00;
+            buf[1] = COMMAND_SET_MACRO;
+            buf[2] = 0x00;
+            memcpy(&buf[3], &ui_data.deviceMacro[0], sizeof(devicemacro_s));
+            if (hid_write(device, buf, sizeof(buf)) == -1)
+            {
+                CloseDevice();
+                return;
+            }
+
+            // Write block 1
+            buf[0] = 0x00;
+            buf[1] = COMMAND_SET_MACRO;
+            buf[2] = 0x01;
+            memcpy(&buf[3], &ui_data.deviceMacro[1], sizeof(devicemacro_s));
+            if (hid_write(device, buf, sizeof(buf)) == -1)
+            {
+                CloseDevice();
+                return;
+            }
+        }
+
         if (ui_data.isEraseFlashRequested == true)
         {
             ui_data.isEraseFlashRequested = false;
@@ -260,6 +288,18 @@ void HID_PnP::change_RF_CTRL()
     ui_data.isRF_CTRL_Pending= true;
     hid_comm_update(ui_data.isConnected, &ui_data);
 
+}
+
+void HID_PnP::set_RF_state(bool state)
+{
+    ui_data.RF_OUT = state;
+    ui_data.isRF_CTRL_Pending = true;
+    hid_comm_update(ui_data.isConnected, &ui_data);
+}
+
+void HID_PnP::write_macro()
+{
+    ui_data.isMacroWritePending = true;
 }
 
 void HID_PnP::CloseDevice()
